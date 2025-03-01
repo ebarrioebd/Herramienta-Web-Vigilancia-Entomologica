@@ -1,0 +1,173 @@
+.contenido_validacion {
+    display: flex;
+}
+
+.div_tablas_validc {
+    width: 41%;
+}
+
+.div_graficas_validc {
+    height: 83vh;
+    width: 59%;
+}
+
+.div_graficas_validc>div {
+    width: 100%;
+    text-align: -webkit-center;
+    display: grid;
+}
+
+#head_main {
+    display: flex;
+    text-align: center;
+}
+
+#head_main>#sect01,
+#sect03 {
+    width: 30%;
+}
+
+#head_main>#sect02 {
+    width: 40%;
+}
+
+#center_main {
+    display: flex;
+}
+
+#center_main>#sect12 {
+    width: 58.33%;
+    text-align: -webkit-center;
+    align-content: center;
+}
+
+#center_main>#sect13 {
+    width: 16.66%;
+}
+
+#center_main>#sect14 {
+    width: 25%;
+}
+
+#foot_main {
+    display: flex;
+}
+
+#selectCSV>div {
+    display: flex;
+}
+
+.cCSV {
+    width: 100%;
+}
+
+#selectCSV>div {
+    width: 100%;
+}
+
+.scaleButton:hover {
+    transform: scale(1.02);
+}
+
+.colorButton:hover {
+    color: black;
+    background: rgb(241, 74, 74);
+}
+
+#muestra_button_v_interpolar>img {
+    vertical-align: text-bottom;
+}
+
+#muestra_button_v_interpolar>button {
+    height: 35px;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.button_vc {
+    display: flex;
+    align-items: center;
+}
+
+.class-css-botonesMAP>button {
+    border-radius: 10px;
+    font-size: 1rem;
+    width: max-content;
+    height: 30px;
+    margin: 5px;
+    font-family: sans-serif;
+}
+
+#muestra_button_v_interpolar>button:hover {
+    transform: scale(1.01);
+}
+
+#agregar-marcadoresMAP,
+#agregar-marcadoresCSV {
+    color: white;
+    background: #0d6efd;
+}
+
+#remover-marcadoresMAP,
+#remover-marcadoresCSV {
+    background: #ffcd39;
+}
+
+/* Tablas*/
+thead,
+th {
+    top: 0;
+    position: sticky;
+}
+
+/*POPUP MAP*/
+.popup {
+    width: 100%;
+    font-size: 15px;
+    display: grid;
+    justify-content: center;
+}
+
+.colonia {
+    font-family: system-ui;
+    color: #0e0e0e;
+    width: 100%; 
+    margin-bottom: 10px;
+}
+ 
+.coordenadas {
+    font-family: system-ui;
+    color: #004aa9;
+}
+
+.cantidad_title { 
+    margin-top: 10px;
+}
+.cantidad{
+    font-family: system-ui;
+    color: #004aa9;
+}
+
+#head_main > div{
+    height: 5vh;
+}
+
+#tableVC > tr{
+    background: rgb(180, 180, 180);
+}
+#tableVC > tbody{
+    background: rgb(231, 231, 231);
+}
+#tableVC > table{
+    background: rgb(235, 235, 235);
+}
+#tableVC > td{
+    color: black;
+    background: rgb(238, 238, 238);
+}
+#tableVC > td{
+    text-shadow: none !important;
+}

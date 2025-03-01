@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página no encontrada</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .contenedor {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #ebebeb;
+    }
+
+    .ventana-resp {
+      width: 300px;
+      height: 270px;
+    }
+
+    /* Estilos para tablets (ancho mínimo de 768px) */
+    @media (min-width: 768px) {
+      .ventana-resp {
+        width: 540px;
+        height: 300px;
+      }
+
+      .circulo-barra {
+        margin-right: 5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+      }
+    }
+
+
+    .ventana {
+      border-radius: 10px;
+      box-shadow: 10px 10px 14px black;
+    }
+
+
+    .barra {
+      border-radius: 10px 10px 0px 0px;
+      width: 100%;
+      height: 10%;
+      background: black;
+      display: flex;
+      justify-content: end;
+      align-items: center;
+    }
+
+    .circulo-barra {
+      margin-right: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+    }
+
+    .c1 {
+      background: #ffca00;
+    }
+
+    .c2 {
+      background: #00c700;
+    }
+
+    .c3 {
+      background: #c90000;
+    }
+    .text-404{
+        width: 100%;
+    height: 90%;
+    align-content: center;
+    text-align: center;
+    font-family: system-ui;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contenedor">
+    <div class="ventana ventana-resp">
+      <div class="barra">
+        <div class="circulo-barra c1"></div>
+        <div class="circulo-barra c2"></div>
+        <div class="circulo-barra c3"></div>
+      </div>
+
+    <div class="text-404">
+        <h1>
+            404
+        </h1><br>
+        <h3>
+            Página no encontrada
+        </h3><br>
+        <a href="/">Ir a inicio</a>
+    </div>
+    </div>
+  </div>
+</body>
+
+</html>

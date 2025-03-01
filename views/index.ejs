@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css">
+  <!--<link href="xhttps://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/jquery.tooltip.css">
+  <link rel="stylesheet" href="/css/css_actualizado.css">
+  <link rel="stylesheet" href="/css/css_responsive.css">
+  <script src="https://cdn.plot.ly/plotly-3.0.0.min.js" charset="utf-8"></script>
+
+  <title>Vigilancia Entomologica</title>
+</head>
+
+<body>
+  <div class="container" id="cont" style="height: 100%;  padding: 0; filter: blur(0px); ">
+    <div id="head_main">
+      <div id="sect01" style="align-content: center;">
+        <p>Sistema de vigilancia</p>
+      </div>
+      <div id="sect02" style="cursor: pointer;" onclick="fileSelect()">
+        <div style="height: 5vh;display: flex;align-items: center;justify-content: center;">
+          <div><img src=" /images/icon-csv.png" style="height:3vh"></div>
+          <div>
+            <p id="bCSV">Abrir archivo csv</p>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 0;    align-content: center;" id="sect03" onclick="abrirColoniasInfo()" placeholder="Muestra la información de cada Colonia">
+        <p>Mostrar la información de cada Colonia</p>
+      </div>
+    </div>
+    <div id="center_main">
+      <div id="sect12" style="padding: 0px;  margin: 0;">
+        <canvas id="canvasMap" style="display: none;"></canvas>
+        <canvas id="canvasMapZonaAlta" style="display: none;"></canvas>
+        <div class="map" style="height: 95%;width: 95%;" id="map_c1"></div>
+      </div>
+      <div id="sect13">
+        <div>
+          <p>Porcentaje de Huevos por Colonia </p>
+        </div>
+        <div style="height:auto">
+          <canvas id="graf_ph"></canvas>
+        </div>
+        <div style="height:10%">
+          <p class="centrado">Cantidad de Ovitrampas</p>
+          <div class="centrado">
+            <h1 id="n_ovi">0</h1>
+          </div>
+        </div>
+      </div>
+      <div id="sect14">
+        <div class="sect14_1" style="height:5%">
+          <p>Zonas</p>
+          <hr>
+        </div>
+        <div class="sect14_2" id="style-15" style="overflow-y: scroll;height:85%;">
+          <div id="zona_name"></div>
+        </div>
+        <div class="sect14_3" id="button_descriptivos" style="height:7%;">
+          <button id="b_descriptivos" onclick="mostrarVentanaEstDesc()">
+            <!--<img src="/images/descriptivos.png" style="color:white; height:3vh;">-->
+            Estadística descriptiva
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="foot_main" style="height:35vh">
+      <div id="sect2" style="width: 57.4%;"><canvas id="graph_pop" style="width: -webkit-fill-available; height: 34vh;"></canvas>
+        <!--input(type="text", name="cvegeoedo", value="01", id="cvegeoedo"  accept=".csv" required)-->
+      </div>
+      <div id="sect2" style="width: 41.66%;"><canvas id="graphPM" style="width: -webkit-fill-available; height: 34vh"></canvas></div>
+    </div>
+  </div>
+  <div id="filecsv" style="display:none">
+    <!-- default display:none-->
+    <div style="height: 20%;margin-left: 10px;">
+      <div style="text-align: end;">
+        <button id="b" onclick="closedivCSV()" style="border: none;background: none;">
+          <img src="/images/close-button.png" height="35" width="35"></button></div>
+        <strong style="font-size: 14px;font-family: monospace;">Seleccionar
+        Archivo .csv</strong>
+      <form class="form-inline">
+        <input type="file" id="fileInputCSV" accept=".csv" required="">
+      </form>
+    </div>
+    <div id="csv_tr"></div>
+    <div class="content_info_csv" style="height: 70%;  display: flex; width:99%;margin: 1%">
+      <div id="csv_table" style="height: 54vh; width: 80%; overflow:scroll;margin-right: 2%;">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Latitud</th>
+              <th>Longitud</th>
+              <th>gid</th>
+              <th>Colonia</th>
+              <th>Cantidad huevos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>16.857838400470023</td>
+              <td>-99.9020504951477</td>
+              <td>25413</td>
+              <td>Nombre de Colonia</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+            </tr>
+            <tr>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+            </tr>
+            <tr>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+              <td> ..... </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="zonas_info_csv" style="height: 54vh; width: 20%;">
+        <div class="scrollbar" style="height: -webkit-fill-available;" id="style-15">
+          <div id="selectCSV"></div>
+        </div>
+      </div>
+    </div>
+    <div style="height:10%;">
+      <div class="col-md-2">
+        <button id="ver_csv_map" style="font-size: large;margin-left: 10px;" onclick="obtenerDatosSeleccionados()">Analizar</button>
+      </div>
+    </div>
+    <textarea name="" style="display:none" cols="200" row="600" id="area"></textarea>
+
+  </div>
+  <div id="interpolarCSV" style="top:150%;/*-150%;*/">
+    <!--defaul top:-150%-->
+    <div style="height: 5%; text-align: end"><button onclick="closeWCSVInter()" style="border: none;background: #444444;"><img src="/images/close-button.png" height="35" width="35"></button></div>
+    <div id="nomColInter" style="height: auto;">
+      <p id="nomColInterp"></p>
+      <div id="muestra_button_v_interpolar"></div>
+    </div>
+    <div id="contendCSV" style="height: 85%;">
+      <div class="map" id="map_c2"></div> </div>
+    <div id="divProgressInterpolar" style="display:none;">
+      <div style="align-items: center;display: flex;">
+        <h4>Generando superficie...</h4>
+        <h4 style="color:#008df5;" id="porcentajeInterpolar">%h4>
+      </div>
+      <progress id="progressInter" style="width: 100%;height: 50px;" max="100" value="10"></progress>
+      <button id="button_cancel_inter" value="" onclick="cancelar_interpolacion()">Cancelar</button>
+    </div>
+  </div>
+   
+  <div id="id_variograma" style="display:none ;">
+    <div style="background: #444444; position: fixed; width: inherit; text-align: end;cursor: move;" id="moveVario"><button onclick="closeVariograma()" style="border: none;background: transparent;"><img src="/images/close-button.png" height="35" width="35"></button></div>
+    <div style="margin-top:40px;width: 100%; text-align: center;"><strong> Ajuste del Semivariograma</strong></div>
+    <div class="semivariograma_config" style="display: flex;padding: 23px;">
+      <div class="config_modelo" style="width: 22%; padding-right: 10px;">
+        <div>
+          <strong>Modelo Teórico</strong>
+          <hr>
+          <select id="select_model" name="select_model">
+            <option value="exp" selected>Modelo Exponencial</option>
+            <option value="gauss">Modelo Gaussiano</option>
+            <option value="esf">Modelo Esférico</option>
+          </select>
+        </div>
+        <br>
+        <div id="metDiv">
+          <strong>Ajuste por Mínimos Cuadrados Ordinarios(MCO)</strong> <br>
+          <hr>
+          <div id="data_mco">
+            <p>Nugget:<br>Sill:<br>Rango:<br>Sill-parcial:</p>
+          </div>
+          <button class="scaleButton" onclick="MCO()" style="height: 30px;border-radius:5px;width: -webkit-fill-available">
+            <strong>Ajustar MCO</strong>
+          </button><br><br>
+        </div>
+        <br>
+        <div id="metDiv">
+          <strong>Ajuste manual</strong>
+          <hr>
+          <div style="display: grid;">
+            <div style="display: flex; align-items: center;">
+              <div style="width: 20%;">
+                <p>Nugget:</p>
+              </div>
+              <div style="width: 80%;padding-left: 10px;"><input id="nugget" style="width: inherit;" type="text" name=""></div>
+            </div>
+            <div style="display: flex;align-items: center;">
+              <div style="width: 20%;">
+                <p>Sill:</p>
+              </div>
+              <div style="width: 80%;padding-left: 10px;"><input id="sill" style="width: inherit;" type="text" name=""></div>
+
+            </div>
+            <div style="display: flex; align-items: center;">
+              <div style="width: 20%;">
+                <p>Rango:</p>
+              </div>
+              <div style="width: 80%; padding-left: 10px;"><input id="range" style="width: inherit;" type="text" name=""></div>
+
+            </div>
+          </div>
+
+          <button class="scaleButton" onclick="ajusteManual()" style="height: 30px; border-radius: 5px;width:-webkit-fill-available">
+            <strong>Ajustar</strong>
+          </button>
+        </div>
+        <br>
+        <button class="colorButton" style="width: 100%; height: 40px;" onclick="interpolar('kriging')">
+          <strong>Generar superficie</strong>
+        </button>
+        <br>
+        <button onclick="validacionCruzada('kriging')" style="width: 100%;justify-items: center;padding: 5px 5px; margin-top: 5px;">
+            <div class="button_vc"><img src="/images/graf.png" id="icon_inter">Validación cruzada</div>
+        </button>
+      </div>
+      <div id="grafdiv" style="width: 78%;">
+        <div class="variograma_div"> 
+         <canvas id="variograma"></canvas>
+        </div>
+        </div>
+    </div>
+  </div>
+  <div style="display:none" id="divError">
+    <div style="text-align: end"><button onclick="closeVerror()" style="border: none;background: red;"><img src="/images/close-button.png" height="35" width="35"></button></div>
+    <h2>Error</h2>
+    <br>
+    <p id="msg"></p>
+  </div>
+  <div id="ventanaEstDesc" style="display: none;">
+    <div style="text-align: end;cursor: move;" id="moveVario"><button onclick="closeTableDescri()" style="border: none;background: #ffffff;"><img src="/images/close-button.png" height="35" width="35"></button></div>
+    <div style="height: 90%;width: 100%; overflow-y: scroll;">
+      <table class="default" style="width: 100%;">
+        <tr>
+          <th>gid</th>
+          <th>Colonia</th>
+          <th>Cantidad de Ovitrampas</th>
+          <th>Total de Huevos Registrados</th>
+          <th>Promedio</th>
+          <th>Varianza</th>
+          <th>Desviación Estándar</th>
+          <th>Mínimo </th>
+          <th>Máximo</th>
+          <th>Rango</th>
+          <th>Histograma de Frecuencias</th>
+        </tr>
+        <tbody id="decriptivo_table_body">
+        </tbody>
+      </table>
+      <div id="boxplot" style="width:800px;height:600px;"></div>
+    </div>
+    
+  </div>
+  <div id="ventanaHistogramaDeFrecuencias" style="display: none;">
+    <div style="text-align: end;" id="moveVario"><button onclick="closeHistograma()" style="border: none;background: #44444400;"><img src="/images/close-button.png" height="35" width="35"></button></div>
+    <div class="histograma_div" style="width: 100% !important; height: 70vh;  text-align: -webkit-center;">
+      <canvas id="histogramaChart" style="display: none;"></canvas>
+      <div id="histograma" style="width:100%;height:100%;"></div>
+    </div>
+  </div>
+  <div id="validacioncruzada" style="top: -120%;">
+    <!-- default -100% -->
+    <div style="text-align: end;" id="cerrar_error"><button onclick="closeError()" style="border: none;background: #44444400;"><img src="/images/close-button.png" height="35" width="35"></button></div>
+    <div class="contenido_validacion">
+      <div class="div_tablas_validc">
+        <div style=" color: black; height: 75vh; overflow-y: scroll; ">
+          <table id="tableVC">
+            <tr>
+              <th>Valor Real</th>
+              <th>Valor Estimado</th>
+              <th>Error</th>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+        <div style="color:black;">
+          <p id="errorpromedio">Promedio:</p>
+          <p id="correlaciozv">Correlacion:</p>
+        </div>
+      </div>
+      <div class="div_graficas_validc">
+        <div>
+          <div class="config_graficas_validacion" style=" height: 40vh ">
+            <canvas style=" height: 40vh !important; width: 90%  !important;" ; id="error_prediccion"></canvas>
+          </div>
+          <div class="config_graficas_validacion" style=" height: 40vh ">
+            <canvas style="height: 40vh !important; width: 90%  !important;" id="z_v"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="divProgressVC" style="display:none;">
+      <h4>Generando datos...</h4>
+      <progress id="progressVC" style="width: 100%;height: 50px;" max="100" value="0"></progress>
+      <button id="button_cancel_vc" value="" onclick="cancelar_vc()">Cancelar</button>
+    </div>
+  </div>
+  <div id="ventana_seleccionar_p" style="display:none;">
+    <div style="text-align: end;" id="moveVario"><button onclick="closeSelectP()" style="border: none;background: #ffffff;"><img src="/images/close-button.png" height="35" width="35"></button></div>
+    <div id="selectP">
+      <div style="display: flex;justify-content: space-evenly; align-items: center;">
+        <div>
+          <p>Seleccione el valor del parámetro de potencia <strong>p</strong> :</p>
+        </div>
+        <div><input id="valor_potencia_p" value="2" min=1 max=100 type="number"></div>
+      </div>
+      <br><br>
+      <div style="display: flex;justify-content: space-around;">
+        <div>
+          <button style="height: -webkit-fill-available;" onclick="interpolar('idw')">Generar Superficie</button>
+        </div>
+        <div>
+          <button  style="height: -webkit-fill-available;" onclick="validacionCruzada('idw')">
+            <img src="/images/graf.png" id="icon_inter">Validación cruzada
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<script src="/js/chart.js"></script>-->
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+  <script src="/js/turf.min.js"></script>
+  <script src="/js/chart-loader.js"></script>
+  <script src="/js/chart.js"></script>
+  <script src="/mainjs/maps_config.js"></script> 
+  <script src="/mainjs/variables_g.js"></script>
+  <script src="/mainjs/chart_config.js"></script>
+  <script src="/mainjs/cargar_datos_csv.js"></script>
+  <script src="/mainjs/descativar_divs.js"></script>
+  <script src="/mainjs/agregarZonasMap.js"></script>
+  <script src="/mainjs/indicadores_ed.js"></script>
+  <script src="/mainjs/f_malla.js"></script>
+  <script src="/mainjs/mapacalor.js"></script>
+</body>
+
+</html>
