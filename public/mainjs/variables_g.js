@@ -1,4 +1,5 @@
 console.log("Variables.js")
+console.time("t:variable.js:")
 //Marcadores para los puntos de csv o bd
 var markers = [] //new Array(); 
 var groupMakers = L.layerGroup(markers);
@@ -31,3 +32,4 @@ function preguntarAntesDeSalir() {
         }
     }
 }
+console.timeEnd("t:variable.js:")

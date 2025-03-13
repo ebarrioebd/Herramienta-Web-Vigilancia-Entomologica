@@ -833,26 +833,26 @@ function crearMapaDeCalor(zonaV, m_i) {
   generarPI(zonaV, m_i); //generar puntos a interpolar
   if (m_i == "kriging") {
     let button_view = `
-        <button onclick="showVariograma()"><div class="button_vc"><img src="/images/graf.png" id="icon_inter"> Ver Semivariograma </div></button>
-        <button onclick="validacionCruzada('kriging')"><div class="button_vc"><img src="/images/graf.png" id="icon_inter">Validación cruzada<div></button>
-        <button onclick="ocultarIMG()" id="ocultarIMG"><div class="button_vc"><img src="/images/oculto.png" id="icon_inter">Ocultar superficie</div></button>
-        <button onclick="mostrarIMG()" id="mostrarIMG"><div class="button_vc"><img src="/images/ojo.png" id="icon_inter">Mostrar superficie</div></button>
-        <button onclick="dIMG()"><div class="button_vc"><img src="/images/salvar.png" id="icon_inter">Descargar superficie</div></button>
-        <button id="ocultarPuntos" onclick="ocultarPuntos()"><div class="button_vc"><img src="/images/oculto.png" id="icon_inter">Ocultar Puntos</div></button>
-        <button id="mostrarPuntos" onclick="mostrarPuntos()"><div class="button_vc"><img src="/images/ojo.png" id="icon_inter">Mostrar Puntos</div></button>
-        <button onclick="SZA()"><div class="button_vc"><img src="/images/ojo.png" id="icon_inter">Mostrar Zonas Altas</div></button>`; //<button onclick="showError()"><img src="/images/ojo.png" id="icon_inter">Mostrar Res. validacion cruzada</button>`
+        <button onclick="showVariograma()"><div class="button_vc"><img src="/images/graf.webp" id="icon_inter"> Ver Semivariograma </div></button>
+        <button onclick="validacionCruzada('kriging')"><div class="button_vc"><img src="/images/graf.webp" id="icon_inter">Validación cruzada<div></button>
+        <button onclick="ocultarIMG()" id="ocultarIMG"><div class="button_vc"><img src="/images/oculto.webp" id="icon_inter">Ocultar superficie</div></button>
+        <button onclick="mostrarIMG()" id="mostrarIMG"><div class="button_vc"><img src="/images/ojo.webp" id="icon_inter">Mostrar superficie</div></button>
+        <button onclick="dIMG()"><div class="button_vc"><img src="/images/salvar.webp" id="icon_inter">Descargar superficie</div></button>
+        <button id="ocultarPuntos" onclick="ocultarPuntos()"><div class="button_vc"><img src="/images/oculto.webp" id="icon_inter">Ocultar Puntos</div></button>
+        <button id="mostrarPuntos" onclick="mostrarPuntos()"><div class="button_vc"><img src="/images/ojo.webp" id="icon_inter">Mostrar Puntos</div></button>
+        <button onclick="SZA()"><div class="button_vc"><img src="/images/ojo.webp" id="icon_inter">Mostrar Zonas Altas</div></button>`; //<button onclick="showError()"><img src="/images/ojo.webp" id="icon_inter">Mostrar Res. validacion cruzada</button>`
     document.getElementById("muestra_button_v_interpolar").innerHTML =
       button_view;
     //document.getElementById("interpolarCSV").style.filter = "blur(5px)";
     crear_SemiVariograna_Experimental();
   } else if (m_i == "idw") {
-    let button_view = `<button onclick="ajustarP()"><div class="button_vc"> <img src="/images/graf.png" id="icon_inter">Seleccionar parametro <strong>p</strong></div></button>
-        <button  onclick="ocultarIMG()" id="ocultarIMG"><div class="button_vc"><img src="/images/oculto.png" id="icon_inter">Ocultar superficie</div></button>
-        <button onclick="mostrarIMG()" id="mostrarIMG"><div class="button_vc"><img src="/images/ojo.png" id="icon_inter">Mostrar superficie</div></button>
-        <button onclick="dIMG()"><div class="button_vc"><img src="/images/salvar.png" id="icon_inter">Descargar superficie</div></button>
-        <button id="ocultarPuntos" onclick="ocultarPuntos()"><div class="button_vc"><img src="/images/oculto.png" id="icon_inter">Ocultar Puntos</div></button>
-        <button id="mostrarPuntos" onclick="mostrarPuntos()"><div class="button_vc"><img src="/images/ojo.png" id="icon_inter">Mostrar Puntos</div></button>
-        <button onclick="SZA()"><div class="button_vc"><img src="/images/ojo.png" id="icon_inter">Mostrar Zonas Altas</div></button>`;
+    let button_view = `<button onclick="ajustarP()"><div class="button_vc"> <img src="/images/graf.webp" id="icon_inter">Seleccionar parametro <strong>p</strong></div></button>
+        <button  onclick="ocultarIMG()" id="ocultarIMG"><div class="button_vc"><img src="/images/oculto.webp" id="icon_inter">Ocultar superficie</div></button>
+        <button onclick="mostrarIMG()" id="mostrarIMG"><div class="button_vc"><img src="/images/ojo.webp" id="icon_inter">Mostrar superficie</div></button>
+        <button onclick="dIMG()"><div class="button_vc"><img src="/images/salvar.webp" id="icon_inter">Descargar superficie</div></button>
+        <button id="ocultarPuntos" onclick="ocultarPuntos()"><div class="button_vc"><img src="/images/oculto.webp" id="icon_inter">Ocultar Puntos</div></button>
+        <button id="mostrarPuntos" onclick="mostrarPuntos()"><div class="button_vc"><img src="/images/ojo.webp" id="icon_inter">Mostrar Puntos</div></button>
+        <button onclick="SZA()"><div class="button_vc"><img src="/images/ojo.webp" id="icon_inter">Mostrar Zonas Altas</div></button>`;
     document.getElementById("muestra_button_v_interpolar").innerHTML =
       button_view;
     interpolar(m_i);
