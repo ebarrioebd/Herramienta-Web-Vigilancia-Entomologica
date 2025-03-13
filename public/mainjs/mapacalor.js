@@ -22,15 +22,15 @@ const coloresCalor = [
   "#fa4815",
 ];
 const colors = [
-  "#0f99dd",  // Azul claro (frío)
-  "#35bbdd",  // Azul verdoso
-  "#68dca7",  // Verde azulado
-  "#e3f46c",  // Amarillo verdoso
-  "#fcfd61",  // Amarillo brillante
-  "#fecf4f",  // Naranja claro
-  "#fea43d",  // Naranja medio
-  "#fa4815",  // Rojo anaranjado
-  "#d00000"   // Rojo intenso (calor máximo)
+  "#0f99dd", // Azul claro (frío)
+  "#35bbdd", // Azul verdoso
+  "#68dca7", // Verde azulado
+  "#e3f46c", // Amarillo verdoso
+  "#fcfd61", // Amarillo brillante
+  "#fecf4f", // Naranja claro
+  "#fea43d", // Naranja medio
+  "#fa4815", // Rojo anaranjado
+  "#d00000", // Rojo intenso (calor máximo)
 ];
 //const colors = [ '#00FF90', '#00FF6C', '#00FF48', '#00FF24', '#00FF00', '#24FF00', '#48FF00', '#6CFF00', '#90FF00', '#B4FF00',  '#D8FF00', '#FFFF00', '#FFD800', '#FFB400', '#FF9000', '#FF6C00', '#FF4800', '#FF2400', '#FF0000' ];
 function inv(params) {
@@ -280,10 +280,10 @@ function dataVT(nugget, sillPartial, rango, model_semi) {
     chartVariograma.data.datasets[0].data[
       chartVariograma.data.datasets[0].data.length - 1
     ].x;
-  //remplace//console.log("distRange::::", distRange)
+  console.log("distRange::::", distRange,chartVariograma.data.datasets[0].data,rango)
   var x = []; //h
   var y = []; //variogramas teorico
-  var cantP = 200;
+  var cantP = 100;
   var aument = distRange / cantP;
   for (var i = 1; i < cantP + 1; i++) {
     y[i] = nugget + sillPartial * modelExp(i * aument, rango, model_semi); // vt(nugget, sillPartial, rango, i * aument,model_semi);
@@ -295,7 +295,7 @@ function dataVT(nugget, sillPartial, rango, model_semi) {
 function createDP(x, y) {
   let points = [];
   for (let i = 0; i < x.length; i++) {
-    points.push({ x: x[i], y: y[i], r: 5 });
+    points.push({ x: x[i], y: y[i], r: 3 });
   }
   return points;
 }
@@ -350,9 +350,12 @@ function MCO(Auto) {
       sill_parcial,
       rango,
       dat_semivariograma.modelo
-    );
+    ); 
+    
+    console.log(xVT)
     chartVariograma.data.labels = xVT;
     chartVariograma.data.datasets[1].data = dataSemivaTeorico;
+    
     chartVariograma.update();
 
     dat_semivariograma.nugget = nugget;
@@ -372,16 +375,21 @@ function ajusteManual() {
   let sill = parseFloat(document.getElementById("sill").value);
   let nugget = parseFloat(document.getElementById("nugget").value);
   let rango = parseFloat(document.getElementById("range").value);
+   
   let [dataSemivaTeorico, xVT] = dataVT(
     nugget,
     sill - nugget,
     rango,
     dat_semivariograma.modelo
   );
+  console.log(nugget,sill - nugget,rango,dat_semivariograma.modelo)
+  console.log(dataSemivaTeorico,xVT)
   //Se actualiza las graficas del semivariograma
   chartVariograma.data.labels = xVT;
   chartVariograma.data.datasets[1].data = dataSemivaTeorico;
+  
   chartVariograma.update();
+
   //Se actualizan los datos del semivariograma
   dat_semivariograma.nugget2 = nugget;
   dat_semivariograma.sill_parcial2 = sill - nugget;
@@ -451,7 +459,7 @@ function cancelar_interpolacion() {
 }
 
 function interpolar(metodo) {
-  enabled_interpolarCSV_div()
+  enabled_interpolarCSV_div();
   document.getElementById("ventana_seleccionar_p").style.display = "none";
   //reinicia Porcentaje de interpolcaion en div ventana
   document.getElementById("porcentajeInterpolar").innerHTML = "";
@@ -659,7 +667,7 @@ function generarPI(zonaSelect, metodo) {
   }
 
   // Escuchar el evento de redimensionamiento de la ventana
-  resizeMap()
+  resizeMap();
   //window.addEventListener("resize", resizeMap);
   puntos_a_interpolar = [];
   const aumentC = 0.0;
@@ -736,8 +744,8 @@ function cancelar_vc() {
 }
 
 function validacionCruzada(metodo_interpolador) {
-  disabled_interpolarCSV_div()
-  disabled_touch_div_maps()
+  disabled_interpolarCSV_div();
+  disabled_touch_div_maps();
 
   document.getElementById("ventana_seleccionar_p").style.display = "none"; //cerrar div de seleccionar paramatro p en IDW
   document.getElementById("divProgressVC").style.display = ""; //div que contiene a process bar
@@ -746,7 +754,10 @@ function validacionCruzada(metodo_interpolador) {
       ? "/interpoladoresjs/validacionCruzada.js"
       : "/interpoladoresjs/validacionCruzadaIDW.js";
   wk_vcross = new Worker(file_vc_path);
-  if (ovitrampas.cantidad_huevos.length >= 500 && metodo_interpolador == "kriging") {
+  if (
+    ovitrampas.cantidad_huevos.length >= 500 &&
+    metodo_interpolador == "kriging"
+  ) {
     wk_vcross.terminate();
     alert("No es posible realizar la V.C con mas de 150 datos");
   } else {
@@ -771,9 +782,13 @@ function validacionCruzada(metodo_interpolador) {
         let zv = e.data.zv;
         let correlacioDeV = calcularCorrelacion(zv, ve);
         document.getElementById("errorpromedio").innerHTML = `
-                                Error medio absoluto: ${(e.data.error_medio_absoluto).toFixed(3)} <br>
-                                Error cuadratico medio:  ${(e.data.error_cuadratico_medio).toFixed(3)} <br>
-                                `
+                                Error medio absoluto: ${e.data.error_medio_absoluto.toFixed(
+                                  3
+                                )} <br>
+                                Error cuadratico medio:  ${e.data.error_cuadratico_medio.toFixed(
+                                  3
+                                )} <br>
+                                `;
         document.getElementById("correlaciozv").innerHTML =
           "Correlación(VR,VE):" + correlacioDeV.toFixed(5);
         var dataP = createDP(zv, ve);
@@ -848,10 +863,20 @@ function mapaCalor(nombre_colonia, gid, type_dat, metodo_interpolacion) {
   disabled_touch_div_maps();
   if (type_dat === "type_csv") {
     //si proviene de un csv y el id de zona pertenece a alguna zona del fileZonaAcapulco.json
-    abrirCrearInterpolacion(nombre_colonia, gid, "type_csv", metodo_interpolacion);
+    abrirCrearInterpolacion(
+      nombre_colonia,
+      gid,
+      "type_csv",
+      metodo_interpolacion
+    );
   } else if (type_dat === "type_csv_no_zona") {
     //si proviene de un csv y el id no esta en filezonaaca.json
-    abrirCrearInterpolacion(nombre_colonia, gid, "type_csv_no_zona", metodo_interpolacion);
+    abrirCrearInterpolacion(
+      nombre_colonia,
+      gid,
+      "type_csv_no_zona",
+      metodo_interpolacion
+    );
   }
 }
 //ocular / mostrar puntos
@@ -872,12 +897,13 @@ function ocultarMarcadores() {
 }
 
 //redireccionar a Ventana de Mapa de calor
-function abrirCrearInterpolacion(nombre_colonia, gid, type_dat, m_i) { 
+function abrirCrearInterpolacion(nombre_colonia, gid, type_dat, m_i) {
   //nombre_colonia, gid, "type_csv", metodo_interpolacion
   //value
-  //document.getElementById("interpolarCSV").style.display = ""; 
+  //document.getElementById("interpolarCSV").style.display = "";
   document.getElementById("interpolarCSV").style.top = 0 + "%";
-  document.getElementById("nomColInterp").innerHTML = "Colonia : " + nombre_colonia; //+paramsValue[0].zona;
+  document.getElementById("nomColInterp").innerHTML =
+    "Colonia : " + nombre_colonia; //+paramsValue[0].zona;
 
   document
     .getElementById("agregar-marcadoresCSV")
@@ -914,7 +940,7 @@ function abrirCrearInterpolacion(nombre_colonia, gid, type_dat, m_i) {
       break;
     }
   }
-  console.log(ovitrampas)
+  console.log(ovitrampas);
   groupMakersCSV.remove(); //remueve
   groupCircleCSV.remove(); //remueve circulos de add
   let content_popupCSV = ``;
@@ -952,7 +978,7 @@ function abrirCrearInterpolacion(nombre_colonia, gid, type_dat, m_i) {
     });
     markersCSV[i].bindPopup(content_popupCSV);
   }
-  groupCircleCSV = L.layerGroup(circlesCSV); 
+  groupCircleCSV = L.layerGroup(circlesCSV);
   //groupCircleCSV.addTo(mapCSVInter);
   groupMakersCSV = L.layerGroup(markersCSV);
   //groupMakersCSV.addTo(mapCSVInter);
@@ -1006,7 +1032,7 @@ function closeVariograma() {
 }
 
 function showVariograma() {
-  disabled_interpolarCSV_div() ;
+  disabled_interpolarCSV_div();
 
   document.getElementById("id_variograma").style.display = "";
   document.getElementById("interpolarCSV").style.filter = "blur(5px)";

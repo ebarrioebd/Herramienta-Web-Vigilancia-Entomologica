@@ -186,54 +186,79 @@ function closeHistograma() {
   document.getElementById("ventanaHistogramaDeFrecuencias").style.display =
     "none";
 }
-function calcularHistograma(index) {
-  // Crear el trace para el histograma
-  const trace = {
-    x: data_ovi_csv[index].cantidad_huevos, // Datos para el eje X
-    type: "histogram", // Tipo de gráfico
-    name: "Cantidad de Huevos", // Nombre de la serie
-    marker: {
-      color: "rgba(100, 149, 237, 0.7)", // Color de las barras
-      line: {
-        color: "rgba(0, 0, 0, 0.5)", // Color del borde de las barras
-        width: 1, // Ancho del borde
-      },
-    },
-    xbins: {
-      start: 0, // Inicio del primer bin
-      end: 90, // Fin del último bin
-      size: 10, // Tamaño de cada bin (intervalo de 10 unidades)
-    },
-  };
+function sumClass(arr) {
+  let suma = 0;
+  for (var i = 0; i < arr.length; i++) {
+    suma += arr[i];
+  }
+  return suma;
+}
+function crearHistogramaDeFrecuencias(od) {
+  console.log("ODODODODODODOD:",od)
+  od.sort(function (a, b) {
+    return a - b;
+  });
+  var dataVal = [];
+  dataVal.push(od[0]);
+  var auxDataVal = od[0];
+  for (var i = 0; i < od.length; i++) {
+    if (auxDataVal !== od[i]) {
+      dataVal.push(od[i]);
+      auxDataVal = od[i];
+    }
+  }
+  var contador = [];
+  for (var i = 0; i < dataVal.length; i++) {
+    var auxcontador = 0;
+    for (var j = 0; j < od.length; j++) {
+      if (dataVal[i] === od[j]) {
+        auxcontador++;
+      }
+    }
+    contador.push(auxcontador);
+  }
+  const cant_inter = 9;
+  var inter =
+    Math.ceil(Math.sqrt(od.length)) > cant_inter
+      ? cant_inter
+      : Math.ceil(Math.sqrt(od.length));
+  var tamClases = Math.round(dataVal.length / inter);
+  //var tamClases = Math.floor(dataVal.length / inter);
+  var frecuencia = [];
+  var interClass = [];
 
-  // Configuración del layout
-  const layout = {
-    title: "Histograma de Cantidad de Huevos en Ovitrampas",
-    xaxis: {
-      title: {
-        text: "Cantidad de Huevos",
-        font: {
-          size: 14,
-          color: "black",
-        },
-      },
-      range: [0, 90], // Rango del eje X
-    },
-    yaxis: {
-      title: {
-        text: "Frecuencia",
-        font: {
-          size: 14,
-          color: "black",
-        },
-      },
-    },
-    bargap: 0.1, // Espacio entre barras
-  };
+  for (var i = 0; i < inter - 1; i++) {
+    frecuencia[i] = sumClass(
+      contador.slice(tamClases * i, tamClases * (i + 1))
+    );
+    if (i < inter - 1) {
+      interClass[i] =
+        "[" +
+        dataVal[tamClases * i] +
+        "," +
+        (dataVal[tamClases * (i + 1)] - 1) +
+        "]";
+    } else {
+      interClass[i] =
+        "[" + dataVal[tamClases * i] + "-" + dataVal[tamClases * i + 1] + "]";
+    }
+  }
+  frecuencia.push(sumClass(contador.slice(tamClases * (inter - 1))));
+  //interClass.push(">" + dataVal[tamClases * (inter - 1)]);
+  interClass.push(
+    "[" + dataVal[tamClases * (inter - 1)] + " , " + od[od.length - 1] + "]"
+  );
 
-  // Crear el gráfico
-  Plotly.newPlot("histograma", [trace], layout);
-  document.getElementById("ventanaHistogramaDeFrecuencias").style.display = "";
+  return { frec: frecuencia, labelClass: interClass };
+}
+function calcularHistograma(index) { 
+    document.getElementById("ventanaHistogramaDeFrecuencias").style.display = "";
+  var hist = crearHistogramaDeFrecuencias(data_ovi_csv[index].cantidad_huevos);
+  barChartHistograma.data.labels = hist.labelClass;
+  barChartHistograma.data.datasets[0].data = hist.frec;
+ 
+
+  barChartHistograma.update(); 
 }
 
 function reiniciarInformacionDeGraficas() {
@@ -316,8 +341,7 @@ function generarEstdisticosDescriptivos() {
   chart_porcentaje_ovi_positiva.update();
   porcentaje_por_colonia.update();
 
-  createTablaDescriptivos(estadisticos);
-  crearBoxPlot(array_huevos, nombre_colonias);
+  createTablaDescriptivos(estadisticos); 
   //Agredar Datos a al Mapa
   addZonaName(estadisticos);
   addOvi();

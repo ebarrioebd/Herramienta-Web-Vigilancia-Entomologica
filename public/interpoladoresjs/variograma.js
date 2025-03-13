@@ -34,7 +34,7 @@ function getVariograma(x, y, z) {
             semi[indice] += semivarianzas[i];
         }
     }
-    let data = { lags: [], semi: [], rango: maximaDistancia - minDistancia}
+    let data = { lags: [], semi: [], rango: maximaDistancia - minDistancia,maxD:maximaDistancia}
     for (let i = 0; i < n_intervalos; i++) {
         if (pares[i] > 0) {
             data.semi.push(0.5 * semi[i] / pares[i])
