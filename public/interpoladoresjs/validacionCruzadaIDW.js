@@ -47,7 +47,7 @@ self.addEventListener("message", function (e) {
   let ema = 0; //error medio absoluto
   let ecm = 0; //error cuadratico medio
   for (var i = 0; i < ve.length; i++) {
-    let error = z[i] - ve[i];
+    let error = z[i] - Math.abs(ve[i]);
     list_error.push(error);
     ema += Math.abs(error);
     ecm += Math.pow(error, 2);
