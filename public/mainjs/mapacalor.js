@@ -9,7 +9,7 @@ var ovitrampas;
 
 var positions = [];
 var zonaCoord = [];
-
+const colors_11=["#7c10ff","#5941ff","#206cfa","#0093f4","#00b7ec","#00d3e3","#00ead7","#00f9cb","#00ffbc","#5effab","#93f89a","#e7d074","#ffb05d","#ff8c48","#ff6332","#ff2e19","#ff0000"]
 const coloresCalor = [
   "#0f99dd",
   "#35bbdd",
@@ -30,7 +30,7 @@ const colors = [
   "#fecf4f", // Naranja claro
   "#fea43d", // Naranja medio
   "#fa4815", // Rojo anaranjado
-  "#d00000", // Rojo intenso (calor máximo)
+  '#FF2400', // Rojo intenso (calor máximo)
 ];
 //const colors = [ '#00FF90', '#00FF6C', '#00FF48', '#00FF24', '#00FF00', '#24FF00', '#48FF00', '#6CFF00', '#90FF00', '#B4FF00',  '#D8FF00', '#FFFF00', '#FFD800', '#FFB400', '#FF9000', '#FF6C00', '#FF4800', '#FF2400', '#FF0000' ];
 function inv(params) {
@@ -77,68 +77,23 @@ function calcularCorrelacion(variableX, variableY) {
 
   return correlacion;
 }
-function getC(v, maximo) {
+function getC_(v, maximo) {
   var z = v / maximo;
-  if (z < 0) {
-    z = 0;
-  } else if (z > 1) {
-    z = 1;
-  } else if (isNaN(z)) {
-    z = 0;
+  if(v>maximo || v< 0){
+    console.log(v)
   }
-  return colors[Math.floor((colors.length - 1) * z)];
+   if(typeof(z)==="number"){
+    return colors[Math.floor((colors.length - 1) * z)];
+   }
+   else{
+    return colors[0];
+   }
+  
 }
 ///crea una imagen con A,B como sus dimenciones
 //zi arrays de valores para cada cuadro dentro
 //id del canvas
-
-function creaImagen(A, B, zi, id, imgOpcion) {
-  //imgOpcion=imgZonaAlta
-  var mayorDato =
-    imgOpcion === "imgZonaAlta" ? 5 * (data_ovi_max / colors.length) : 0;
-  var canvas = document.getElementById(id);
-  var ctx = canvas.getContext("2d");
-  canvas.width = 1000;
-  canvas.height = 1000;
-  var x0 = 0,
-    y0 = 0,
-    x1 = 0,
-    y1 = 0;
-  var k = 0;
-  var max = data_ovi_max; //getMaxValor(ovitrampas);
-  for (var i = 0; i < A; i++) {
-    var aumentI = 0.7; //-0.8
-    y0 = 0;
-    y1 = 0;
-    y1 = canvas.width;
-    y0 = y1 - canvas.height / B;
-    for (var j = 0; j < B; j++) {
-      x1 = canvas.width / A;
-      y1 = canvas.height / B;
-      if (zi[k] !== -1 && zi[k] >= mayorDato) {
-        ctx.fillStyle = getC(zi[k], max);
-        ctx.fillRect(
-          x0 - aumentI,
-          y0 - aumentI,
-          x1 + 2 * aumentI,
-          y1 + 2 * aumentI
-        );
-        //ctx.arc((x0+x1)/2, (y0+y1)/2, (canvas.width/A)/2 , 0,Math.PI * 2);
-        //ctx.stroke();
-        //ctx.strokeRect(x0, y0, x1, y1);
-        //ctx.lineWidth = 0.5;
-      }
-      //ctx.strokeRect(x0, y0, x1, y1);
-      y0 -= canvas.width / B;
-      y1 -= canvas.width / B;
-      k++;
-    }
-    x0 += canvas.width / A;
-    x1 += canvas.width / A;
-  }
-
-  return canvas.toDataURL("image/png");
-}
+ 
 
 //cierra la ventana de interpolacion
 function closeWCSVInter() {
@@ -367,6 +322,7 @@ function MCO(Auto) {
     if (Auto) {
       interpolar("kriging");
     }
+    wk_mco.terminate();
   };
 }
 
@@ -437,8 +393,8 @@ function crear_SemiVariograna_Experimental() {
     x = event.data.x;
     y = event.data.y;
     z = event.data.z;
-    wk_semiva.terminate();
     MCO(true);
+    wk_semiva.terminate();
   };
 }
 //var zonaSelect;
@@ -459,6 +415,7 @@ function cancelar_interpolacion() {
 }
 
 function interpolar(metodo) {
+  document.getElementById("tiempo_interpolacion").innerHTML="";
   enabled_interpolarCSV_div();
   document.getElementById("ventana_seleccionar_p").style.display = "none";
   //reinicia Porcentaje de interpolcaion en div ventana
@@ -475,6 +432,7 @@ function interpolar(metodo) {
       document.getElementById("interpolarCSV").style.filter = "blur(0px)";
       document.getElementById("id_variograma").style.display = "none";
       //creamos el worker
+      const inicio_time_ko=performance.now();
       wk_kriging = new Worker("/interpoladoresjs/kriging_ordinario.js");
       wk_kriging.onerror = (event) => {
         alert("Error");
@@ -542,8 +500,10 @@ function interpolar(metodo) {
           imgOpaci = imgk;
           imgOpaci.addTo(mapCSVInter);
           addTablaIndicador();
-          document.getElementById("divProgressInterpolar").style.display =
-            "none";
+          document.getElementById("divProgressInterpolar").style.display ="none";
+          const final_time_ko=performance.now();
+          document.getElementById("tiempo_interpolacion").innerHTML=`La interpolación tardó ${((final_time_ko-inicio_time_ko)/1000).toFixed(2)} segundos`
+          wk_kriging.terminate();
           ////
         } else if (event.data.type == "progress") {
           document.getElementById("porcentajeInterpolar").innerHTML =
@@ -551,8 +511,7 @@ function interpolar(metodo) {
           document.getElementById("progressInter").value =
             parseInt(event.data.p) + 1;
         }
-
-        ////
+       
       };
     } else {
       alert("Ajuste el semivariograma");
@@ -561,6 +520,7 @@ function interpolar(metodo) {
     metodo_aplicado = metodo;
     document.getElementById("divProgressInterpolar").style.display = "";
     //creamos el worker
+    const inicio_time_idw= performance.now();
     wk_idw = new Worker("/interpoladoresjs/idw.js");
 
     wk_idw.onerror = (event) => {
@@ -625,6 +585,8 @@ function interpolar(metodo) {
         imgOpaci.addTo(mapCSVInter);
         addTablaIndicador();
         document.getElementById("divProgressInterpolar").style.display = "none";
+        const final_time_idw= performance.now(); 
+          document.getElementById("tiempo_interpolacion").innerHTML=`La interpolación tardó ${((final_time_idw-inicio_time_idw)/1000).toFixed(2)} segundos`
         wk_idw.terminate();
       } else if (event.data.type == "progress") {
         document.getElementById("porcentajeInterpolar").innerHTML =
@@ -647,7 +609,7 @@ var scope = new L.polyline([0, 0]);
 function generarPI(zonaSelect, metodo) {
   mapCSVInter.removeLayer(scope);
   //genear puntos a interpolar
-  cantidad_de_cuadrados_por_ladao = metodo == "idw" ? 200 : 100;
+  cantidad_de_cuadrados_por_ladao = metodo == "idw" ? 200 : 200;
   let positions = [];
   //optiene los puntos de la zona  estimar.
   zonaSelect[0].geometry.coordinates[0][0].forEach(function (point) {
@@ -738,6 +700,7 @@ function crearXY(p, min, max) {
 var wk_vcross;
 
 function cancelar_vc() {
+  enabled_interpolarCSV_div();
   document.getElementById("validacioncruzada").style.display = "none";
   wk_vcross.terminate();
   console.log("Validación cruzada Cancelada.....");
@@ -819,9 +782,11 @@ function validacionCruzada(metodo_interpolador) {
         }
         document.getElementById("tableVC").innerHTML = tableVC;
         document.getElementById("divProgressVC").style.display = "none"; //cerrar div que contiene a process bar
+        
+        wk_vcross.terminate();
       }
       if (e.data.type == "progress") {
-        document.getElementById("progressVC").value = parseInt(event.data.p);
+        document.getElementById("progressVC").value = parseInt(e.data.p);
       }
     };
   }
@@ -1032,8 +997,7 @@ function closeVariograma() {
 }
 
 function showVariograma() {
-  disabled_interpolarCSV_div();
-
+  disabled_interpolarCSV_div(); 
   document.getElementById("id_variograma").style.display = "";
   document.getElementById("interpolarCSV").style.filter = "blur(5px)";
 }

@@ -154,6 +154,7 @@
     <div style="height: 5%; text-align: end"><button onclick="closeWCSVInter()" style="border: none;background: #444444;"><img src="/images/close-button.webp" height="35" width="35"></button></div>
     <div id="nomColInter" style="height: auto;">
       <p id="nomColInterp"></p>
+      <p id="tiempo_interpolacion"> Tiempo : </p>
       <div id="muestra_button_v_interpolar"></div>
     </div>
     <div id="contendCSV" style="height: 85%;">
@@ -161,7 +162,7 @@
     <div id="divProgressInterpolar" style="display:none;">
       <div style="align-items: center;display: flex;">
         <h4>Generando superficie...</h4>
-        <h4 style="color:#008df5;" id="porcentajeInterpolar">%h4>
+        <h4 style="color:#008df5;" id="porcentajeInterpolar"></h4>
       </div>
       <progress id="progressInter" style="width: 100%;height: 50px;" max="100" value="10"></progress>
       <button id="button_cancel_inter" value="" onclick="cancelar_interpolacion()">Cancelar</button>
