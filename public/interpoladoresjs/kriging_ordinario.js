@@ -52,11 +52,8 @@ self.addEventListener('message', function (e) {
     //fin de cambio para ajuste manual
 
     const progreso = 0;
-    console.time("invM")
-    //###let matriz_variograma_teorico = invM(mvt);
-    //##console.log("invMVT1:",matriz_variograma_teorico);
-    let matriz_variograma_teorico = math.inv(mvt)
-    console.log("invMVT:",matriz_variograma_teorico);
+    console.time("invM") 
+    let matriz_variograma_teorico = math.inv(mvt) 
 
 
     let zi = [], k = 0;

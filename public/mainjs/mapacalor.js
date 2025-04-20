@@ -234,8 +234,7 @@ function dataVT(nugget, sillPartial, rango, model_semi) {
   var distRange =
     chartVariograma.data.datasets[0].data[
       chartVariograma.data.datasets[0].data.length - 1
-    ].x;
-  console.log("distRange::::", distRange,chartVariograma.data.datasets[0].data,rango)
+    ].x; 
   var x = []; //h
   var y = []; //variogramas teorico
   var cantP = 100;
@@ -306,8 +305,7 @@ function MCO(Auto) {
       rango,
       dat_semivariograma.modelo
     ); 
-    
-    console.log(xVT)
+     
     chartVariograma.data.labels = xVT;
     chartVariograma.data.datasets[1].data = dataSemivaTeorico;
     
@@ -318,7 +316,7 @@ function MCO(Auto) {
     dat_semivariograma.rango = rango;
     dat_semivariograma.sill = sill;
     dat_semivariograma.m = "MCO";
-    wk_mco.terminate();
+    //wk_mco.terminate();
     if (Auto) {
       interpolar("kriging");
     }
@@ -394,7 +392,7 @@ function crear_SemiVariograna_Experimental() {
     y = event.data.y;
     z = event.data.z;
     MCO(true);
-    wk_semiva.terminate();
+    //wk_semiva.terminate();
   };
 }
 //var zonaSelect;
@@ -503,7 +501,7 @@ function interpolar(metodo) {
           document.getElementById("divProgressInterpolar").style.display ="none";
           const final_time_ko=performance.now();
           document.getElementById("tiempo_interpolacion").innerHTML=`La interpolación tardó ${((final_time_ko-inicio_time_ko)/1000).toFixed(2)} segundos`
-          wk_kriging.terminate();
+          //wk_kriging.terminate();
           ////
         } else if (event.data.type == "progress") {
           document.getElementById("porcentajeInterpolar").innerHTML =
@@ -587,7 +585,7 @@ function interpolar(metodo) {
         document.getElementById("divProgressInterpolar").style.display = "none";
         const final_time_idw= performance.now(); 
           document.getElementById("tiempo_interpolacion").innerHTML=`La interpolación tardó ${((final_time_idw-inicio_time_idw)/1000).toFixed(2)} segundos`
-        wk_idw.terminate();
+        //wk_idw.terminate();
       } else if (event.data.type == "progress") {
         document.getElementById("porcentajeInterpolar").innerHTML =
           parseInt(event.data.p) + 1 + "%";
@@ -783,7 +781,7 @@ function validacionCruzada(metodo_interpolador) {
         document.getElementById("tableVC").innerHTML = tableVC;
         document.getElementById("divProgressVC").style.display = "none"; //cerrar div que contiene a process bar
         
-        wk_vcross.terminate();
+        //wk_vcross.terminate();
       }
       if (e.data.type == "progress") {
         document.getElementById("progressVC").value = parseInt(e.data.p);

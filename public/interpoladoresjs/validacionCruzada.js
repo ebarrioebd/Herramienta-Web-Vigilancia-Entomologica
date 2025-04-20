@@ -106,8 +106,7 @@ self.addEventListener("message", function (e) {
       postMessage({ type: "progress", p: (k * 100) / n });
     }
   }
-  console.time("errorTime");
-  console.log(v_estimados);
+  console.time("errorTime"); 
   ///*
   let list_error = [];
   let ema = 0; //error medio absoluto

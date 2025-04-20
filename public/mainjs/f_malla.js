@@ -65,8 +65,7 @@ function getC(v, maximo) {
 }
 function DibujarSuperficieInterpolada(max, cantidad_cuadros, pi, id, imgOpcion) {
     var mayorDato = imgOpcion === "imgZonaAlta" ? 4 * (max / colors.length) : Math.min(...pi);
-    const canva = document.getElementById(id);
-    console.log(mayorDato, "pi:", pi)
+    const canva = document.getElementById(id); 
     canva.width = 1000;
     canva.height = 1000;
     let wc = canva.width;

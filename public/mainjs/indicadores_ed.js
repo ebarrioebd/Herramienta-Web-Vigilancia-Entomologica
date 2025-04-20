@@ -193,11 +193,7 @@ function sumClass(arr) {
   }
   return suma;
 }
-function crearHistogramaDeFrecuencias(od) {
-  console.log("ODODODODODODOD:",od)
-  od.sort(function (a, b) {
-    return a - b;
-  });
+function crearHistogramaDeFrecuencias(od) { 
   var dataVal = [];
   dataVal.push(od[0]);
   var auxDataVal = od[0];
@@ -250,14 +246,13 @@ function crearHistogramaDeFrecuencias(od) {
   );
 
   return { frec: frecuencia, labelClass: interClass };
-}
+} 
 function calcularHistograma(index) { 
-    document.getElementById("ventanaHistogramaDeFrecuencias").style.display = "";
-  var hist = crearHistogramaDeFrecuencias(data_ovi_csv[index].cantidad_huevos);
+  document.getElementById("ventanaHistogramaDeFrecuencias").style.display = "";
+  let data = [...data_ovi_csv[index].cantidad_huevos].sort((a, b) => a - b); // Orden ascendente; //array
+  let hist = crearHistogramaDeFrecuencias(data);// return {}
   barChartHistograma.data.labels = hist.labelClass;
-  barChartHistograma.data.datasets[0].data = hist.frec;
- 
-
+  barChartHistograma.data.datasets[0].data = hist.frec; 
   barChartHistograma.update(); 
 }
 
