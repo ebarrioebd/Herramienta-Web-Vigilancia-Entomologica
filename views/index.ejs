@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="Herramienta web para analizar CSV de ovitrampas: estadísticas, geoestadística y mapas interpolados para visualizar la distribución de huevos.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css">  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/jquery.tooltip.css">
   <link rel="stylesheet" href="/css/css_actualizado.css">
-  <link rel="stylesheet" href="/css/css_responsive.css"> 
+  <link rel="stylesheet" href="/css/css_responsive.css">
 
   <title>Vigilancia Entomologica</title>
 </head>
@@ -29,9 +29,10 @@
           </div>
         </div>
       </div>
-      <div style="padding: 0;    align-content: center;" id="sect03" onclick="abrirColoniasInfo()" placeholder="Muestra la información de cada Colonia">
+      <div id="sect03" style="padding: 0;    align-content: center;" onclick="abrirColoniasInfo()" placeholder="Muestra la información de cada Colonia">
         <p>Mostrar la información de cada Colonia</p>
       </div>
+      <div id="sect04"><img style="height: 70%;" src="/images/archivo.webp"></div>
     </div>
     <div id="center_main">
       <div id="sect12" style="padding: 0px;  margin: 0;">
@@ -76,13 +77,39 @@
       <div id="sect2" style="width: 41.66%;"><canvas id="graphPM" style="width: -webkit-fill-available; height: 34vh"></canvas></div>
     </div>
   </div>
+  <div id="descargar_datos_inicio" style="display: none;">
+    <div style="display: flex;">
+      <div style="height: 10%; width: 50%; align-self: center;text-align: center;">Descargar datos</div>
+      <div style="height: 10%; width: 50%;text-align: end;">
+        <button onclick="closedivSaveData()" style="border: none;background: none;">
+          <img src="/images/close-button.webp" height="35" width="35">
+        </button>
+      </div>
+    </div>
+    <div>
+      <fieldset>
+        <legend>Descargar graficos</legend>
+        <div>
+          <button onclick="saveImgPOP()" style="width: 100%;display: flex; align-items: center;">
+            <img src="/images/descargar-img.webp" height="35" width="35">
+            <p>Porcentaje de Ovitrampa positiva</p>
+          </button>
+          <button onclick="saveImgPHO()" style="width: 100%;display: flex; align-items: center;">
+            <img src="/images/descargar-img.webp" height="35" width="35">
+            <p>Promedio de huevos por Ovitrampa</p>
+          </button>
+        </div>
+      </fieldset>
+    </div>
+  </div>
   <div id="filecsv" style="display:none">
     <!-- default display:none-->
     <div style="height: 20%;margin-left: 10px;">
       <div style="text-align: end;">
         <button id="b" onclick="closedivCSV()" style="border: none;background: none;">
-          <img src="/images/close-button.webp" height="35" width="35"></button></div>
-        <strong style="font-size: 14px;font-family: monospace;">Seleccionar
+          <img src="/images/close-button.webp" height="35" width="35"></button>
+      </div>
+      <strong style="font-size: 14px;font-family: monospace;">Seleccionar
         Archivo .csv</strong>
       <form class="form-inline">
         <input type="file" id="fileInputCSV" accept=".csv" required="">
@@ -158,7 +185,8 @@
       <div id="muestra_button_v_interpolar"></div>
     </div>
     <div id="contendCSV" style="height: 85%;">
-      <div class="map" id="map_c2"></div> </div>
+      <div class="map" id="map_c2"></div>
+    </div>
     <div id="divProgressInterpolar" style="display:none;">
       <div style="align-items: center;display: flex;">
         <h4>Generando superficie...</h4>
@@ -168,7 +196,7 @@
       <button id="button_cancel_inter" value="" onclick="cancelar_interpolacion()">Cancelar</button>
     </div>
   </div>
-   
+
   <div id="id_variograma" style="display:none ;">
     <div style="background: #444444; position: fixed; width: inherit; text-align: end;cursor: move;" id="moveVario"><button onclick="closeVariograma()" style="border: none;background: transparent;"><img src="/images/close-button.webp" height="35" width="35"></button></div>
     <div style="margin-top:40px;width: 100%; text-align: center;"><strong> Ajuste del Semivariograma</strong></div>
@@ -231,14 +259,18 @@
         </button>
         <br>
         <button onclick="validacionCruzada('kriging')" style="width: 100%;justify-items: center;padding: 5px 5px; margin-top: 5px;">
-            <div class="button_vc"><img src="/images/graf.webp" id="icon_inter">Validación cruzada</div>
+          <div class="button_vc"><img src="/images/graf.webp" id="icon_inter">Validación cruzada</div>
         </button>
+
       </div>
       <div id="grafdiv" style="width: 78%;">
-        <div class="variograma_div"> 
-         <canvas id="variograma"></canvas>
+        <div class="variograma_div">
+          <canvas id="variograma"></canvas>
         </div>
-        </div>
+        <button onclick="saveImgSemivariograma()" style="width: 100%;justify-items: center;padding: 5px 5px; margin-top: 5px;">
+          <div class="button_vc"><img style="width: 30px;" src="/images/descargar-img.webp">Descargar Semivariograma</div>
+        </button>
+      </div>
     </div>
   </div>
   <div style="display:none" id="divError">
@@ -269,7 +301,7 @@
       </table>
       <div id="boxplot" style="width:800px;height:600px;"></div>
     </div>
-    
+
   </div>
   <div id="ventanaHistogramaDeFrecuencias" style="display: none;">
     <div style="text-align: end;" id="moveVario"><button onclick="closeHistograma()" style="border: none;background: #44444400;"><img src="/images/close-button.webp" height="35" width="35"></button></div>
@@ -311,6 +343,16 @@
             <canvas style="height: 40vh !important; width: 90%  !important;" id="z_v"></canvas>
           </div>
         </div>
+        <div style="display: flex;">
+          <button onclick="saveImgErrorGraf()" style="display: flex; align-items: center;">
+            <img style="width: 20px;height: 20px;" src="/images/descargar-img.webp" height="35" width="35">
+            <p style="font-size: 10px;">Error de estimación</p>
+          </button>
+          <button onclick="saveImgVc()" style="display: flex; align-items: center;">
+            <img style="width: 20px;height: 20px;" src="/images/descargar-img.webp" height="35" width="35">
+            <p style="font-size: 10px;">Validación cruzada</p>
+          </button>
+        </div>
       </div>
     </div>
     <div id="divProgressVC" style="display:none;">
@@ -334,7 +376,7 @@
           <button style="height: -webkit-fill-available;" onclick="interpolar('idw')">Generar Superficie</button>
         </div>
         <div>
-          <button  style="height: -webkit-fill-available;" onclick="validacionCruzada('idw')">
+          <button style="height: -webkit-fill-available;" onclick="validacionCruzada('idw')">
             <img src="/images/graf.webp" id="icon_inter">Validación cruzada
           </button>
         </div>
@@ -348,7 +390,7 @@
   <script src="/js/turf.min.js"></script>
   <script src="/js/chart-loader.js"></script>
   <script src="/js/chart.js"></script>
-  <script src="/mainjs/maps_config.js"></script> 
+  <script src="/mainjs/maps_config.js"></script>
   <script src="/mainjs/variables_g.js"></script>
   <script src="/mainjs/chart_config.js"></script>
   <script src="/mainjs/cargar_datos_csv.js"></script>
@@ -357,6 +399,91 @@
   <script src="/mainjs/indicadores_ed.js"></script>
   <script src="/mainjs/f_malla.js"></script>
   <script src="/mainjs/mapacalor.js"></script>
+  <script>
+    const sectionSaveData = document.getElementById("sect04");
+    const divDataSave = document.getElementById("descargar_datos_inicio")
+    sectionSaveData.addEventListener("click", () => {
+      divDataSave.style.display = ""
+    })
+
+    function closedivSaveData() {
+      divDataSave.style.display = "none"
+    }
+
+    function saveImgPOP() {
+      descargarGraficaAltaCalidadPNG(chart_porcentaje_ovi_positiva, "graph_pop");
+    }
+
+    function saveImgPHO() {
+      descargarGraficaAltaCalidadPNG(chart_promedio_huevos, "graphPM")
+    }
+
+    function saveImgSemivariograma() {
+      descargarGraficaAltaCalidadPNG(chartVariograma, "variograma")
+    }
+    function saveImgErrorGraf(){
+      descargarGraficaAltaCalidadPNG(error_graf,"error_prediccion")
+    }
+    function saveImgVc(){
+      descargarGraficaAltaCalidadPNG(graf_vz,"z_v")
+    }
+    function descargarGraficaAltaCalidadPNG(chart, id) {
+
+      // Guardar configuraciones de color originales
+      const originalLegendColor = chart.options.plugins.legend.labels.color;
+      const originalXTicksColor = chart.options.scales.x.ticks.color;
+      const originalXBorderColor = chart.options.scales.x.grid.borderColor
+      const originalYTicksColor = chart.options.scales.y.ticks.color;
+      const originalYBorderColor = chart.options.scales.x.grid.borderColor
+
+
+      // Cambiar colores a negro temporalmente
+      chart.options.plugins.legend.labels.color = 'rgb(0,0,0)';
+      chart.options.scales.x.ticks.color = 'rgb(0,0,0)';
+      chart.options.scales.y.ticks.color = 'rgb(0,0,0)';
+      chart.options.scales.x.grid.borderColor = 'rgb(0,0,0)';
+      chart.options.scales.y.grid.borderColor = 'rgb(0,0,0)';
+
+      const canvas = document.getElementById(id);
+      // Guardar dimensiones originales
+      const originalWidth = canvas.width;
+      const originalHeight = canvas.height;
+
+      // Aumentar resolución
+      const pixelRatio = 3;
+      canvas.width = originalWidth * pixelRatio;
+      canvas.height = originalHeight * pixelRatio;
+
+      // Redibujar el gráfico con los nuevos colores y resolución
+      chart.resize();
+      chart.render();
+
+      // Crear enlace de descarga
+      const enlace = document.createElement('a');
+      enlace.download = id + '.png';
+      enlace.href = canvas.toDataURL('image/png');
+
+      // Descargar
+      document.body.appendChild(enlace);
+      enlace.click();
+      document.body.removeChild(enlace);
+
+      // Restaurar dimensiones originales
+      canvas.width = originalWidth;
+      canvas.height = originalHeight;
+
+      // Restaurar colores originales (blanco)
+      chart.options.plugins.legend.labels.color = originalLegendColor;
+      chart.options.scales.x.ticks.color = originalXTicksColor;
+      chart.options.scales.y.ticks.color = originalYTicksColor;
+      chart.options.scales.x.grid.borderColor = originalXBorderColor
+      chart.options.scales.y.grid.borderColor = originalXBorderColor
+
+      // Redibujar el gráfico con la configuración original
+      chart.resize();
+      chart.update();
+    }
+  </script>
 </body>
 
 </html>

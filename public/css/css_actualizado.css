@@ -22,10 +22,15 @@
     text-align: center;
 }
 
-#head_main>#sect01,
-#sect03 {
-    width: 30%;
+#head_main>#sect01,#sect03 {
+    width: 27%;
 }
+#head_main>#sect04{
+    align-content: center;
+    width: 6%;
+    align-self: anchor-center;
+}
+
 
 #head_main>#sect02 {
     width: 40%;
@@ -170,4 +175,14 @@ th {
 }
 #tableVC > td{
     text-shadow: none !important;
+}
+#descargar_datos_inicio{
+    display: block;
+    width: 50%; 
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    height: 50vh;
+    border: outset #fffefe 5px;
+    background: #444444;
 }

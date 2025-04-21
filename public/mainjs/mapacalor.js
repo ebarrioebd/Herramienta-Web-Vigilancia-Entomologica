@@ -920,7 +920,8 @@ function abrirCrearInterpolacion(nombre_colonia, gid, type_dat, m_i) {
         `;
     circlesCSV[i] = L.circle(
       [ovitrampas.latitud[i], ovitrampas.longitud[i]],
-      (parseInt(ovitrampas.cantidad_huevos[i]) * 100) / data_ovi_max,
+      (30/data_ovi_max)*parseInt(ovitrampas.cantidad_huevos[i]),
+      //(parseInt(ovitrampas.cantidad_huevos[i]) * 100) / data_ovi_max,
       {
         weight: 2,
         opacity: 1,

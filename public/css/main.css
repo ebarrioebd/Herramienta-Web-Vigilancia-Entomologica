@@ -389,7 +389,8 @@ b {
 #sect21,
 #sect01,
 #sect02,
-#sect03{
+#sect03,
+#sect04{
     border: outset #525252 3px;
     background: #313030;
     border-radius: 10px;

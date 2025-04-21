@@ -330,7 +330,7 @@ const graf_vz = new Chart(ctx_error,{
                 },
                 { 
                     type: 'line',
-                    label: '',
+                    label: 'Recta identidad',
                     data: [{ x: 0, y: 0 }, { x: 5, y: 10 } ], //add
                     fill: false,
                     borderWidth: 2,
