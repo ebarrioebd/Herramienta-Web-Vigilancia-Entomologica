@@ -283,7 +283,7 @@ function generarEstdisticosDescriptivos() {
     nom_col: [], //nombre de las colonias
   };
   let total_de_ovitrampas = 0;
-  for (let i = 0; i < d                                                                  ata_ovi_csv.length; i++) {
+  for (let i = 0; i < data_ovi_csv.length; i++) {
     total_de_ovitrampas+= data_ovi_csv[i].cantidad_huevos.length;
     total_de_huevos += data_ovi_csv[i].cantidad_huevos.reduce(
       (a, b) => a + b,
