@@ -282,13 +282,15 @@ function generarEstdisticosDescriptivos() {
     pop: [], //porcentages de ovitrampas positivas para cada zona
     nom_col: [], //nombre de las colonias
   };
-  for (let i = 0; i < data_ovi_csv.length; i++) {
-    
+  let total_de_ovitrampas = 0;
+  for (let i = 0; i < d                                                                  ata_ovi_csv.length; i++) {
+    total_de_ovitrampas+= data_ovi_csv[i].cantidad_huevos.length;
     total_de_huevos += data_ovi_csv[i].cantidad_huevos.reduce(
       (a, b) => a + b,
       0
     );
   }
+  document.getElementById("n_ovi").innerHTML=String(total_de_ovitrampas);
   for (let i = 0; i < data_ovi_csv.length; i++) {
     estadisticos.push(
       calcularEstadisticosDescriptivos(data_ovi_csv[i].cantidad_huevos)
